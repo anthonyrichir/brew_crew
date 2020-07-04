@@ -3,6 +3,7 @@ import 'package:brewcrew/services/database.dart';
 import 'package:brewcrew/shared/constants.dart';
 import 'package:brewcrew/shared/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
 class SettingsForm extends StatefulWidget {
@@ -60,7 +61,7 @@ class _SettingsFormState extends State<SettingsForm> {
                   ),
                   SizedBox(height: 20),
                   //slider
-                  Slider(
+                  PlatformSlider(
                     value: (_currentStrength ?? userData.strength).toDouble(),
                     min: 100,
                     max: 900,
@@ -68,10 +69,12 @@ class _SettingsFormState extends State<SettingsForm> {
                     onChanged: (val) =>
                         setState(() => _currentStrength = val.round()),
                     activeColor: Colors.brown[_currentStrength ?? 100],
-                    inactiveColor: Colors.brown[_currentStrength ?? 100],
+                    material: (context, platform) => MaterialSliderData(
+                      inactiveColor: Colors.brown[_currentStrength ?? 100],
+                    ),
                   ),
                   SizedBox(height: 10.0),
-                  RaisedButton(
+                  PlatformButton(
                       color: Colors.pink[400],
                       child: Text(
                         'Update',

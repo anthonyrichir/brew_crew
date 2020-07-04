@@ -4,6 +4,7 @@ import 'package:brewcrew/screens/home/settings_form.dart';
 import 'package:brewcrew/services/auth.dart';
 import 'package:brewcrew/services/database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
@@ -24,32 +25,34 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamProvider<List<Brew>>.value(
       value: DatabaseService().brews,
-      child: Scaffold(
+      child: PlatformScaffold(
         backgroundColor: Colors.brown[50],
-        appBar: AppBar(
+        appBar: PlatformAppBar(
           title: Text('Brew Crew'),
           backgroundColor: Colors.brown[400],
-          elevation: 0,
-          actions: <Widget>[
-            FlatButton.icon(
-                onPressed: () async {
-                  await _auth.signOut();
-                },
-                icon: Icon(Icons.person),
-                label: Text('logout')),
-            FlatButton.icon(
-                onPressed: () => _showSettingsPanel(context),
-                icon: Icon(Icons.settings),
-                label: Text('Settings'))
+//          elevation: 0,
+
+          trailingActions: <Widget>[
+            PlatformIconButton(
+              onPressed: () async {
+                await _auth.signOut();
+              },
+              icon: Icon(Icons.person),
+//                label: Text('logout')
+            ),
+            PlatformIconButton(
+              onPressed: () => _showSettingsPanel(context),
+              icon: Icon(Icons.settings),
+//                label: Text('Settings')
+            )
           ],
         ),
-        body: Container(child: BrewList(),
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/coffee_bg.png'),
-            fit: BoxFit.cover
-          )
-        )),
+        body: Container(
+            child: BrewList(),
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/coffee_bg.png'),
+                    fit: BoxFit.cover))),
       ),
     );
   }
